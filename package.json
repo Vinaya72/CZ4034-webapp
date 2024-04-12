@@ -9,19 +9,37 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@types/react-date-range": "^1.4.9",
+    "@visx/responsive": "^3.10.2",
+    "@visx/scale": "^3.5.0",
+    "@visx/text": "^3.3.0",
+    "@visx/wordcloud": "^3.3.0",
+    "aos": "^2.3.4",
+    "filter-data-advanced": "^1.0.8",
+    "natural": "^7.0.0",
+    "next": "14.1.0",
     "react": "^18",
+    "react-date-range": "^2.0.0-alpha.4",
     "react-dom": "^18",
-    "next": "14.1.0"
+    "react-google-charts": "^4.0.1",
+    "react-icons": "^5.0.1",
+    "react-select": "^5.8.0",
+    "stopword": "^3.0.1"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/aos": "^3.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/stopword": "^2.0.3",
     "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0"
+    "typescript": "^5"
   }
 }

@@ -1,16 +1,17 @@
 "use client";
 
-import bg from '../public/bg.jpeg'
+import bg from '../../public/bg.jpeg'
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
-import Pagination from './components/Pagination';
+import Pagination from '../components/Pagination';
 import { useSearchParams } from 'next/navigation';
-import {SortOption } from './types/Types';
-import FilterMenu from './components/FilterMenu';
-import CommentsCard from './components/CommentsCard';
-import PieChart from './components/PieChart';
-import WordCloudComponent from './components/WordCloud';
+import {SortOption } from '../types/Types';
+import FilterMenu from '../components/FilterMenu';
+import CommentsCard from '../components/CommentsCard';
+import PieChart from '../components/PieChart';
+import WordCloudComponent from '../components/WordCloud';
 import { FaSearch } from "react-icons/fa";
+import Link from 'next/link';
 
 
 
@@ -29,7 +30,7 @@ interface commentsData{
 
 interface FilterObject{
   sentiment: (string|number)[],
-  sort: SortOption 
+  sort: SortOption
   dateRange: number | null
 }
 
@@ -37,14 +38,22 @@ const itemsPerPage = 5;
 
 const Page: React.FC = () => {
 
+  // const searchParams = useSearchParams();
+  // const commentsString = searchParams.get("query") || '';
+
+  // const listAsArray: commentsData[] = commentsString ? JSON.parse(decodeURIComponent(commentsString)): [];
+
   const counts: Record<string, number> = {
     positive: 0,
     negative: 0,
     neutral: 0
   };
 
-  const[inputSearch, setInputSearch] = useState<string>('');
-  const[finalInputSearch, setFinalInputSearch] = useState<string>('');
+  const searchParams = useSearchParams();
+  const searchValue = searchParams.get("query1") || '';
+  const suggestedValue = searchParams.get("query2") || '';
+  const[inputSearch, setInputSearch] = useState<string>(searchValue);
+  const[finalInputSearch, setFinalInputSearch] = useState<string>(searchValue);
   const[currentPage, setCurrentPage] = useState(1);
   const[suggested, setSuggested] = useState<string>('');
   // const [jsonData, setJsonData] = useState<commentsData[]>([]);
@@ -53,10 +62,9 @@ const Page: React.FC = () => {
   const [data, setData] = useState<number[]>([0, 0, 0]); // Initialize data state
   const[filters, setFilters] = useState<FilterObject>({
     sentiment: [],
-    sort: 'Default',
+    sort: "Most Likes",
     dateRange: null
 })
-  const[queryTime, setQueryTime] = useState(0);
 
 
   const sortAndFilterData = (filterObj: FilterObject) => {
@@ -86,14 +94,6 @@ const Page: React.FC = () => {
       }
       else if(filterObj. sort === "Least Likes"){
         return aLikes - bLikes;
-      } else if (filterObj.sort === "Old Comments") {
-        const dateA = new Date(a.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
-        const dateB = new Date(b.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
-        return dateA - dateB;
-      } else if (filterObj.sort === "New Comments") {
-        const dateA = new Date(a.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
-        const dateB = new Date(b.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
-        return dateB - dateA;
       }
 
       return 0;
@@ -103,86 +103,45 @@ const Page: React.FC = () => {
 
   const labels = ['Positive', 'Negative', 'Neutral']
 
-  function customEncodeURIComponent(inputString: string, spaceReplacement: string) {
-    return encodeURIComponent(inputString).replace(/%20/g, spaceReplacement);
-  }
-
-// useEffect(() => {
-//   if(finalInputSearch){
-//     const encodedSearchValue = customEncodeURIComponent(finalInputSearch,'+')
-//     fetch(`http://localhost:8080/search/${encodedSearchValue}`)
-//     .then(response => {
-//       if (!response.ok) {
-//         throw new Error('Failed to fetch data');
-//       }
-//       return response.json();
-//     })
-//     .then((jsonData) => {
-//       setJsonData(jsonData.docs);
-//     })
-//     .catch(error => {
-//       console.error('Error fetching data:', error);
-//     });
-
-//   }
-//   }, [finalInputSearch]);
-
-
-//   useEffect(() => {
-//     if(finalInputSearch){
-//       const encodedSearchValue = customEncodeURIComponent(finalInputSearch,'+')
-//       fetch(`http://localhost:8080/suggested/${encodedSearchValue}`)
-//       .then(response => {
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch data');
-//         }
-//         return response.json();
-//       })
-//       .then((jsonData) => {
-//         if(jsonData.suggestions.length >= 1){
-//           setSuggested(jsonData.suggestions[1].suggestion[0].word);
-//         }
-//         else{
-//           setSuggested('');
-//         }
-        
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-
-//     }
-//   }, [finalInputSearch])
 
 useEffect(() => {
-  if (finalInputSearch) {
-    // const encodedSearchValue = customEncodeURIComponent(finalInputSearch, '+AND+');
-    
-    Promise.all([
-      fetch(`http://localhost:8080/search/${finalInputSearch}`),
-      fetch(`http://localhost:8080/suggested/${finalInputSearch}`)
-    ])
-      .then(([searchResponse, suggestedResponse]) => {
-        if (!searchResponse.ok || !suggestedResponse.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        return Promise.all([searchResponse.json(), suggestedResponse.json()]);
-      })
-      .then(([searchJsonData, suggestedJsonData]) => {
-        setJsonData(searchJsonData.response.docs);
-        setQueryTime(searchJsonData.responseHeader.QTime)
-        if (suggestedJsonData.suggestions.length >= 1) {
-          setSuggested(suggestedJsonData.suggestions[1].suggestion[0].word);
-        } else {
-          setSuggested('');
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-}, [finalInputSearch]);
+    fetch(`http://localhost:8080/search/${inputSearch}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      return response.json();
+    })
+    .then((jsonData) => {
+      setJsonData(jsonData.docs);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+  }, [finalInputSearch]);
 
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/suggested/${inputSearch}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      return response.json();
+    })
+    .then((jsonData) => {
+      if(jsonData.suggestions.length >= 1){
+        setSuggested(jsonData.suggestions[1].suggestion[0].word);
+      }
+      else{
+        setSuggested('');
+      }
+      
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+  }, [finalInputSearch])
   
 
   useEffect(() => {
@@ -220,37 +179,15 @@ useEffect(() => {
       setInputSearch(e.target.value);
   }
 
-// const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-//   if (e.key === 'Enter') {
-//     const inpuSearchValue = "*"+inputSearch+"*";
-//     setFinalInputSearch(inpuSearchValue);
-//    }
-// }
-
 const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
   if (e.key === 'Enter') {
-    let finalInputSearchValue = '';
-    const inputSearchWords = inputSearch.trim().split(/\s+/);
-
-    if (inputSearchWords.length === 1) {
-      // If it's a single word
-      finalInputSearchValue = `*${inputSearchWords[0]}*`;
-    } else {
-      // If it's a sentence
-      finalInputSearchValue = inputSearchWords.map(word => `*${word}*`).join('+AND+');
-    }
-
-    setFinalInputSearch(finalInputSearchValue);
-  }
-};
-
+    setFinalInputSearch(inputSearch);
+   }
+}
 
 const handleSuggestedClick = () => {
-  const inputSearchValue = "*"+suggested+"*";
-  if(inputSearchValue.charAt(0) === '*'){
-    setInputSearch(inputSearchValue.substring(1, inputSearchValue.length - 1));
-  }
-  setFinalInputSearch(inputSearchValue);
+  setInputSearch(suggested);
+  setFinalInputSearch(suggested);
 };
 
   return (
@@ -270,6 +207,7 @@ const handleSuggestedClick = () => {
           <input
             type="text"
             id="textInput"
+            defaultValue= {searchValue}
             value={inputSearch}
             name="textInput"
             placeholder="Enter text..."
@@ -280,32 +218,23 @@ const handleSuggestedClick = () => {
           />
           <FaSearch size={30} color='#6d856d' className='absolute top-1/2 right-3 transform -translate-y-1'/>
         </div>
-        {suggested && (suggested !== inputSearch) && (
+        {suggested && (
               <div className='text-base font-normal mt-5'>
                 Did you mean{' '}
                 <a onClick={handleSuggestedClick} className="cursor-pointer text-blue-500 underline">
                   {suggested}
                 </a>
-                
                 ?
               </div>
         )}
-        {
-           finalInputSearch && (
-            <div className='text-base font-normal mt-5'>Fetched {filteredData.length} results 
-            { filteredData.length > 0 &&
-                 (<span>in {queryTime} ms</span>)
-            }
-            </div>
-           )
-        }
+      <div className='text-base font-normal mt-5'>Fetched {filteredData.length} results</div>
       {
          (filteredData.length > 0 || jsonData.length > 0) && (
           <FilterMenu filters={filters} setFilters={setFilters}/>
          )
       }
       {
-        (filteredData.length > 0 && jsonData.length > 0) && (
+        (filteredData.length > 0 || jsonData.length > 0) && (
           <div className='grid grid-cols-1 min-[800px]:grid-cols-2 gap-4 max-h-full overflow-y-auto relative'>
           <div>
               <div className='min-[800px]:h-1/2 my-3'>
@@ -317,7 +246,7 @@ const handleSuggestedClick = () => {
           </div>
           <div>
           {currentItems.map((item, index) => (
-               <CommentsCard key={item.ID} data = {item}/>
+               <CommentsCard data = {item}/>
          ))}
           <div className='md-5'>
             <Pagination totalItems={filteredData.length} itemsPerPage={itemsPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>

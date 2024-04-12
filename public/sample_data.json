@@ -1,0 +1,320 @@
+[
+    {
+        "username": "ejoejw",
+        "date_time": "2023-12-09 21:59:21",
+        "body": "Republican vote unanimously to ban income programs in a state with one of the highest homelessness rate",
+        "score": 50,
+        "comments":[
+            {
+                "username": "ejoejw",
+                "date_time": "2023-12-09 21:59:21",
+                "body": "Republican vote unanimously to ban income programs in a state with one of the highest homelessness rate",
+                "score": 10,
+                "sentiment": "positive"
+
+            },
+            {
+                "username": "ejoejw",
+                "date_time": "2023-12-09 21:59:21",
+                "body": "Republican vote unanimously to ban income programs in a state with one of the highest homelessness rate",
+                "score": 20,
+                "sentiment": "negative"
+
+            },
+            {
+                "username": "ejoejw",
+                "date_time": "2023-12-09 21:59:21",
+                "body": "Republican vote unanimously to ban income programs in a state with one of the highest homelessness rate",
+                "score": 30,
+                "sentiment": "neutral"
+
+            },
+            {
+                "username": "ejoejw",
+                "date_time": "2023-12-09 21:59:21",
+                "body": "Republican vote unanimously to ban income programs in a state with one of the highest homelessness rate",
+                "score": 40,
+                "sentiment": "positive"
+
+            },
+            {
+                "username": "ejoejw",
+                "date_time": "2023-12-09 21:59:21",
+                "body": "Republican vote unanimously to ban income programs in a state with one of the highest homelessness rate",
+                "score": 50,
+                "sentiment": "negative"
+
+            },
+            {
+                "username": "ejoejw",
+                "date_time": "2023-12-09 21:59:21",
+                "body": "Republican vote unanimously to ban income programs in a state with one of the highest homelessness rate",
+                "score": 60,
+                "sentiment": "neutral"
+
+            }
+
+        ]
+
+    },
+    {
+        "username": "ejoejw",
+        "date_time": "2023-12-09 21:59:21",
+        "body": "Republican vote unanimously to ban income programs in a state with one of the highest homelessness rate",
+        "score": 50,
+        "comments":[
+            {
+                "username": "ejoejw",
+                "date_time": "2023-12-09 21:59:21",
+                "body": "This decision will undoubtedly exacerbate the homelessness crisis in our state.",
+                "score": 10,
+                "sentiment": "negative"
+            },
+            {
+                "username": "socialworker",
+                "date_time": "2023-12-09 22:05:00",
+                "body": "As someone who works directly with homeless individuals, I'm deeply concerned about the implications of this vote.",
+                "score": 15,
+                "sentiment": "negative"
+            },
+            {
+                "username": "activist",
+                "date_time": "2023-12-09 22:15:00",
+                "body": "We need to hold our elected officials accountable for their actions. This vote is unacceptable.",
+                "score": 20,
+                "sentiment": "negative"
+            },
+            {
+                "username": "advocate",
+                "date_time": "2023-12-09 22:30:00",
+                "body": "This decision goes against the values of compassion and empathy that should guide our policies.",
+                "score": 25,
+                "sentiment": "negative"
+            },
+            {
+                "username": "citizen",
+                "date_time": "2023-12-09 22:45:00",
+                "body": "I'm disappointed in our representatives for prioritizing politics over the well-being of their constituents.",
+                "score": 30,
+                "sentiment": "negative"
+            }
+        ]
+    },
+    {
+        "username": "politicalobserver",
+        "date_time": "2023-11-20 15:45:30",
+        "body": "New bipartisan bill introduced to increase funding for mental health programs",
+        "score": 35,
+        "comments":[
+            {
+                "username": "mentalhealthadvocate",
+                "date_time": "2023-11-20 16:00:00",
+                "body": "This is a positive step towards addressing the mental health crisis in our society.",
+                "score": 40,
+                "sentiment": "positive"
+            },
+            {
+                "username": "budgetconscious",
+                "date_time": "2023-11-20 17:30:00",
+                "body": "While important, we need to ensure the funds are allocated efficiently and effectively.",
+                "score": 30,
+                "sentiment": "neutral"
+            },
+            {
+                "username": "mentalhealthprofessional",
+                "date_time": "2023-11-20 18:00:00",
+                "body": "Increased funding for mental health programs is long overdue. It's encouraging to see bipartisan support for this initiative.",
+                "score": 45,
+                "sentiment": "positive"
+            },
+            {
+                "username": "communitymember",
+                "date_time": "2023-11-20 19:00:00",
+                "body": "I hope this bill leads to tangible improvements in access to mental health services for those in need.",
+                "score": 35,
+                "sentiment": "positive"
+            },
+            {
+                "username": "healthcareprovider",
+                "date_time": "2023-11-20 20:00:00",
+                "body": "Mental health is just as important as physical health. Investing in mental health programs is an investment in our collective well-being.",
+                "score": 50,
+                "sentiment": "positive"
+            }
+        ]
+    },
+    {
+        "username": "environmentalist",
+        "date_time": "2023-10-05 09:20:15",
+        "body": "Proposed legislation aims to protect endangered species habitat",
+        "score": 25,
+        "comments":[
+            {
+                "username": "wildlifeenthusiast",
+                "date_time": "2023-10-05 10:00:00",
+                "body": "It's crucial to preserve biodiversity and protect vulnerable ecosystems.",
+                "score": 35,
+                "sentiment": "positive"
+            },
+            {
+                "username": "propertyowner",
+                "date_time": "2023-10-05 11:30:00",
+                "body": "While well-intentioned, we must consider the potential impact on landowners and local economies.",
+                "score": 20,
+                "sentiment": "neutral"
+            },
+            {
+                "username": "conservationist",
+                "date_time": "2023-10-05 12:00:00",
+                "body": "Protecting endangered species habitat is essential for maintaining ecological balance and biodiversity.",
+                "score": 30,
+                "sentiment": "positive"
+            },
+            {
+                "username": "ecologist",
+                "date_time": "2023-10-05 13:00:00",
+                "body": "Loss of habitat is one of the leading causes of species extinction. This legislation is a step in the right direction to address this issue.",
+                "score": 25,
+                "sentiment": "positive"
+            },
+            {
+                "username": "developmentadvocate",
+                "date_time": "2023-10-05 14:00:00",
+                "body": "While conservation is important, we need to find a balance between protecting habitats and supporting economic development.",
+                "score": 15,
+                "sentiment": "neutral"
+            }
+        ]
+    },
+    {
+        "username": "techenthusiast",
+        "date_time": "2024-02-15 11:10:30",
+        "body": "Government announces investment in renewable energy infrastructure",
+        "score": 60,
+        "comments":[
+            {
+                "username": "renewableenergyexpert",
+                "date_time": "2024-02-15 12:00:00",
+                "body": "This will help reduce our dependency on fossil fuels and combat climate change.",
+                "score": 70,
+                "sentiment": "positive"
+            },
+            {
+                "username": "economicanalyst",
+                "date_time": "2024-02-15 13:30:00",
+                "body": "While commendable, we need to ensure these investments are financially sustainable in the long run.",
+                "score": 50,
+                "sentiment": "neutral"
+            },
+            {
+                "username": "environmentalist",
+                "date_time": "2024-02-15 14:00:00",
+                "body": "Investing in renewable energy infrastructure is essential for mitigating the impacts of climate change.",
+                "score": 55,
+                "sentiment": "positive"
+            },
+            {
+                "username": "energyconsumer",
+                "date_time": "2024-02-15 15:00:00",
+                "body": "Transitioning to renewable energy sources is not only environmentally responsible but also economically beneficial in the long term.",
+                "score": 60,
+                "sentiment": "positive"
+            },
+            {
+                "username": "climateactivist",
+                "date_time": "2024-02-15 16:00:00",
+                "body": "We need bold investments in renewable energy to avoid the worst consequences of climate change.",
+                "score": 65,
+                "sentiment": "positive"
+            }
+        ]
+    },
+    {
+        "username": "healthcareadvocate",
+        "date_time": "2024-03-20 08:45:00",
+        "body": "Controversial healthcare reform bill passes in parliament",
+        "score": 15,
+        "comments":[
+            {
+                "username": "patientadvocate",
+                "date_time": "2024-03-20 09:30:00",
+                "body": "This bill raises serious concerns about access to affordable healthcare for vulnerable populations.",
+                "score": 10,
+                "sentiment": "negative"
+            },
+            {
+                "username": "healthcareprofessional",
+                "date_time": "2024-03-20 10:15:00",
+                "body": "While imperfect, this bill could lead to positive changes in our healthcare system if implemented effectively.",
+                "score": 20,
+                "sentiment": "positive"
+            },
+            {
+                "username": "publichealthexpert",
+                "date_time": "2024-03-20 11:00:00",
+                "body": "We need to closely monitor the impact of this reform on access to healthcare services and health outcomes.",
+                "score": 15,
+                "sentiment": "neutral"
+            },
+            {
+                "username": "concernedcitizen",
+                "date_time": "2024-03-20 12:00:00",
+                "body": "I fear this bill will only widen existing disparities in healthcare access and outcomes.",
+                "score": 5,
+                "sentiment": "negative"
+            },
+            {
+                "username": "healthcareprovider",
+                "date_time": "2024-03-20 13:00:00",
+                "body": "As a healthcare professional, I'm worried about the potential negative impact of this reform on patient care.",
+                "score": 10,
+                "sentiment": "negative"
+            }
+        ]
+    },
+    {
+        "username": "educationadvocate",
+        "date_time": "2024-04-10 14:20:17",
+        "body": "State government announces initiative to improve access to quality education in underserved communities",
+        "score": 45,
+        "comments":[
+            {
+                "username": "teacher",
+                "date_time": "2024-04-10 15:00:00",
+                "body": "This is a step in the right direction towards addressing educational inequality.",
+                "score": 50,
+                "sentiment": "positive"
+            },
+            {
+                "username": "parent",
+                "date_time": "2024-04-10 16:45:00",
+                "body": "I'm hopeful that this initiative will provide better opportunities for all children to succeed academically.",
+                "score": 40,
+                "sentiment": "positive"
+            },
+            {
+                "username": "educationexpert",
+                "date_time": "2024-04-10 17:30:00",
+                "body": "Access to quality education is a fundamental right. It's essential to address disparities and ensure equal opportunities for all students.",
+                "score": 45,
+                "sentiment": "positive"
+            },
+            {
+                "username": "communityleader",
+                "date_time": "2024-04-10 18:15:00",
+                "body": "Improving access to education is key to breaking the cycle of poverty and building stronger communities.",
+                "score": 35,
+                "sentiment": "positive"
+            },
+            {
+                "username": "student",
+                "date_time": "2024-04-10 19:00:00",
+                "body": "As a student from an underserved community, I'm grateful for initiatives like this that prioritize our needs and aspirations.",
+                "score": 40,
+                "sentiment": "positive"
+            }
+        ]
+    }
+    
+   
+]
