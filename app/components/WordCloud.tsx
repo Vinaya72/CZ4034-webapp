@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { scaleLinear } from '@visx/scale';
 import Wordcloud from '@visx/wordcloud/lib/Wordcloud';
 
@@ -37,14 +37,12 @@ const stopWords = ['a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to',
 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'these', 'those', 'am', 'are', 'was', 'were', 
 'been', 'being', 'have', 'having', 'do', 'does', 'did', 'doing', 'but', 'if', 'because', 'until', 'how', 'all', 'both', 'each', 
 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 
-'same', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now'
+'same', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now', "it's", "i'll"
 ];
-
-
 
 function wordFreq(comments: Comment[]): WordData[] {
   const allText = comments.map(comment => comment.Comment).join(' ');
-  const words: string[] = allText.replace(/[^\w\s]/g, '').split(/\s/).filter(Boolean);
+  const words: string[] = allText.replace(/\./g, '').split(/\s/);
 
   const freqMap: Record<string, number> = {};
 
@@ -62,11 +60,27 @@ function getRotationDegree() {
 
 const WordCloudComponent: React.FC<WordCloudProps> = ({ commentsData }) => {
   const [words, setWords] = useState<WordData[]>([]);
+  const wordCloudRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const wordData = wordFreq(commentsData);
     setWords(wordData);
   }, [commentsData]); // Update words state when commentsData changes
+
+  useEffect(() => {
+    function handleResize() {
+      if (wordCloudRef.current) {
+        const width = wordCloudRef.current.offsetWidth;
+        const height = wordCloudRef.current.offsetHeight;
+        setDimensions({ width, height });
+      }
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const [dimensions, setDimensions] = useState<{ width: number; height: number }>({ width: 300, height: 300 });
 
   const fontScale = scaleLinear({
     domain: [Math.min(...words.map((w) => w.value)), Math.max(...words.map((w) => w.value))],
@@ -77,37 +91,43 @@ const WordCloudComponent: React.FC<WordCloudProps> = ({ commentsData }) => {
   const fixedValueGenerator = () => 0.5;
 
   return (
-    <div className="flex w-full bg-black h-full justify-center items-center">
+    <div ref={wordCloudRef} className="flex w-full bg-black h-full justify-center items-center">
       <Wordcloud
-        words={words}
-        width={500} // Set the width as a number instead of a string
-        height={500}
-        fontSize={fontSizeSetter}
-        font={'Impact'}
-        padding={2}
-        spiral={'archimedean'}
-        rotate={getRotationDegree}
-        random={fixedValueGenerator}>
-        {(cloudWords) =>
-          cloudWords.map((w, i) => (
-            <text
-              key={w.text}
-              fill={colors[i % colors.length]}
-              textAnchor={'middle'}
-              transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
-              fontSize={w.size}
-              fontFamily={w.font}
-            >
-              {w.text}
-            </text>
-          ))
-        }
-      </Wordcloud>
+  // Type assertion to explicitly tell TypeScript that the props are correct
+  {...{
+    words: words,
+    width: dimensions.width,
+    height: dimensions.height,
+    fontSize: fontSizeSetter,
+    font: 'Impact',
+    padding: 2,
+    spiral: 'archimedean',
+    rotate: getRotationDegree,
+    random: fixedValueGenerator,
+  }}
+>
+  {(cloudWords: any) =>
+    cloudWords.map((w: any, i: number) => (
+      <text
+        key={w.text}
+        fill={colors[i % colors.length]}
+        textAnchor={'middle'}
+        transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
+        fontSize={w.size}
+        fontFamily={w.font}
+      >
+        {w.text}
+      </text>
+    ))
+  }
+</Wordcloud>
+
     </div>
   );
 };
 
 export default WordCloudComponent;
+
 
 
 

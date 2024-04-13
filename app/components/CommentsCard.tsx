@@ -34,6 +34,7 @@ const CommentsCard : React.FC<Childprops> = ({data}) => {
             </div>
         </div>
         <p className='text-xs my-3 text-slate-500'>{data.Comment_Datetime}</p>
+        <p className='text-xs my-3 text-slate-500'>{data.Title}</p>
         <p className="text-base text-slate-200 font-medium">{data.Comment}</p>
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row'>

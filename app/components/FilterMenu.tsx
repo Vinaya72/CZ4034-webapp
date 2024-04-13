@@ -3,7 +3,7 @@ import Select, { MultiValue } from 'react-select';
 import { useState } from "react";
 
 interface FilterObject{
-    sentiment: (string|number)[],
+    sentiment: (string|number)|null,
     sort: SortOption
     dateRange: number | null
   }
@@ -37,6 +37,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({filters, setFilters}) => {
         { value: 'positive', label: 'Positive' },
         { value: 'negative', label: 'Negative' },
         { value: 'neutral', label: 'Neutral' },
+        {value: 'all', label: 'All'}
       ];
 
 
@@ -47,11 +48,8 @@ const FilterMenu: React.FC<FilterMenuProps> = ({filters, setFilters}) => {
       { value: 0, label: 'All'}
     ];
     
-      const handleSentimentChange = (selectedOptions: MultiValue<SentimentOption>| null) => {
-        const updatedFilters = {
-          ...filters,
-          sentiment: selectedOptions ? (selectedOptions as SentimentOption[]).map((option) => option.value) : [],
-        };
+      const handleSentimentChange = (selectedOption: SentimentOption| null) => {
+        const updatedFilters = {...filters, sentiment: selectedOption ? selectedOption.value  : null};
         setFilters(updatedFilters);
       };
     
@@ -71,10 +69,10 @@ const FilterMenu: React.FC<FilterMenuProps> = ({filters, setFilters}) => {
         <h2 className="text-sm font-semibold mb-2 mt-3">Sentiment</h2>
         <div className="mr-5 ml-5 mt-1">
           <Select
-            isMulti
+            isMulti={false}
             options={sentimentOptions}
-            value={sentimentOptions.filter((option) => filters.sentiment.includes(option.value))}
-            onChange={(selectedOptions) => handleSentimentChange(selectedOptions)}
+            value={sentimentOptions.filter((option) => filters.sentiment === option.value)}
+            onChange={(selectedOption) => handleSentimentChange(selectedOption)}
             className="text-sm"
             styles={{
                 control: provided => ({
@@ -124,10 +122,10 @@ const FilterMenu: React.FC<FilterMenuProps> = ({filters, setFilters}) => {
             className="w-full bg-transparent p-2 rounded text-xs"
           >
             <option value="Default">Default</option>
-            <option value="Most Likes">Most Likes</option>
-            <option value="Least Likes">Least Likes</option>
-            <option value="New Comments">New Comments</option>
-            <option value="Old Comments">Old Comments</option>
+            <option value="Most Likes">Most Scores</option>
+            <option value="Least Likes">Least Scores</option>
+            {/* <option value="New Comments">New Comments</option>
+            <option value="Old Comments">Old Comments</option> */}
             {/* Add more options as needed */}
           </select>
         </div>

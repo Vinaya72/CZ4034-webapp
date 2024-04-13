@@ -28,12 +28,12 @@ interface commentsData{
 }
 
 interface FilterObject{
-  sentiment: (string|number)[],
+  sentiment: (string|number)|null,
   sort: SortOption 
   dateRange: number | null
 }
 
-const itemsPerPage = 5;
+const itemsPerPage = 15;
 
 const Page: React.FC = () => {
 
@@ -47,25 +47,50 @@ const Page: React.FC = () => {
   const[finalInputSearch, setFinalInputSearch] = useState<string>('');
   const[currentPage, setCurrentPage] = useState(1);
   const[suggested, setSuggested] = useState<string>('');
-  // const [jsonData, setJsonData] = useState<commentsData[]>([]);
   const[filteredData, setFilteredData] = useState<commentsData[]>([]);
   const [jsonData, setJsonData] = useState<commentsData[]>([]);
   const [data, setData] = useState<number[]>([0, 0, 0]); // Initialize data state
   const[filters, setFilters] = useState<FilterObject>({
-    sentiment: [],
+    sentiment: null,
     sort: 'Default',
     dateRange: null
 })
   const[queryTime, setQueryTime] = useState(0);
+  const[filterString, setFilterString] = useState('');
+  const[pageString, setPageString] = useState('');
+  const[totalDataLengh, setTotalDataLength] = useState(0);
+
+  const handlePageString = (pageNumber: number) => {
+    const pageString = "&start="+pageNumber;
+    return pageString;
+
+  }
+
+  const handleFilterString = (filterObject: FilterObject) => {
+    let filterString = '';
+    if(filterObject.sentiment){
+      if(filterObject.sentiment !== 'all'){
+        filterString = filterString+"&fq=label:"+filterObject.sentiment         
+      }     
+    }
+    if(filterObject.sort){
+      if(filterObject.sort === "Most Likes"){
+        filterString = filterString+"&sort=Score+"+"desc"
+      }
+      if(filterObject.sort === "Least Likes"){
+        filterString = filterString+"&sort=Score+"+"asc"
+      }
+    }
+
+    return filterString;
+
+  }
 
 
   const sortAndFilterData = (filterObj: FilterObject) => {
   const currentDate = new Date().getTime(); // Current timestamp in milliseconds
   const millisecondsInDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
-   return jsonData.filter(item=> {
-    return(filterObj.sentiment.length > 0 ? filterObj.sentiment.includes(item.label) : true )
-   })
-   .filter(item => {
+   return jsonData.filter(item => {
     // Convert item.date_time to timestamp
     const itemTimestamp = new Date(item.Comment_Datetime).getTime();
     // Check if the difference between currentDate and itemTimestamp falls within the specified timeline
@@ -78,26 +103,26 @@ const Page: React.FC = () => {
     // If no timeline filter is applied, return true
     return true;
    })
-   .sort((a: any,b: any) => {
-      const aLikes = a.Score;
-      const bLikes = b.Score;
-      if(filterObj.sort === "Most Likes"){
-           return bLikes - aLikes;
-      }
-      else if(filterObj. sort === "Least Likes"){
-        return aLikes - bLikes;
-      } else if (filterObj.sort === "Old Comments") {
-        const dateA = new Date(a.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
-        const dateB = new Date(b.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
-        return dateA - dateB;
-      } else if (filterObj.sort === "New Comments") {
-        const dateA = new Date(a.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
-        const dateB = new Date(b.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
-        return dateB - dateA;
-      }
+  //  .sort((a: any,b: any) => {
+  //     const aLikes = a.Score;
+  //     const bLikes = b.Score;
+  //     if(filterObj.sort === "Most Likes"){
+  //          return bLikes - aLikes;
+  //     }
+  //     else if(filterObj. sort === "Least Likes"){
+  //       return aLikes - bLikes;
+  //     } else if (filterObj.sort === "Old Comments") {
+  //       const dateA = new Date(a.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
+  //       const dateB = new Date(b.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
+  //       return dateA - dateB;
+  //     } else if (filterObj.sort === "New Comments") {
+  //       const dateA = new Date(a.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
+  //       const dateB = new Date(b.Comment_Datetime.replace(/-/g, '/')).getTime(); // Replace '-' with '/' for Safari compatibility
+  //       return dateB - dateA;
+  //     }
 
-      return 0;
-   })
+  //     return 0;
+  //  })
 
   }
 
@@ -156,10 +181,10 @@ const Page: React.FC = () => {
 
 useEffect(() => {
   if (finalInputSearch) {
-    // const encodedSearchValue = customEncodeURIComponent(finalInputSearch, '+AND+');
+    const finalQueryString = finalInputSearch+filterString+pageString;
     
     Promise.all([
-      fetch(`http://localhost:8080/search/${finalInputSearch}`),
+      fetch(`http://localhost:8080/search/${finalQueryString}`),
       fetch(`http://localhost:8080/suggested/${finalInputSearch}`)
     ])
       .then(([searchResponse, suggestedResponse]) => {
@@ -169,8 +194,11 @@ useEffect(() => {
         return Promise.all([searchResponse.json(), suggestedResponse.json()]);
       })
       .then(([searchJsonData, suggestedJsonData]) => {
+        console.log(suggestedJsonData);
         setJsonData(searchJsonData.response.docs);
-        setQueryTime(searchJsonData.responseHeader.QTime)
+        setFilteredData(searchJsonData.response.docs);
+        setQueryTime(searchJsonData.responseHeader.QTime);
+        setTotalDataLength(searchJsonData.response.numFound);
         if (suggestedJsonData.suggestions.length >= 1) {
           setSuggested(suggestedJsonData.suggestions[1].suggestion[0].word);
         } else {
@@ -181,18 +209,16 @@ useEffect(() => {
         console.error('Error fetching data:', error);
       });
   }
-}, [finalInputSearch]);
+}, [finalInputSearch, filterString, pageString]);
 
   
 
   useEffect(() => {
     const filterData = sortAndFilterData(filters);
+    const filterString = handleFilterString(filters);
+    setFilterString(filterString);
     setFilteredData(filterData);
-    // filteredData.forEach(comment =>{
-    //   counts[comment.label]++;
-    // });
-    // setData([counts['positive'], counts['negative'], counts['neutral']])
-  }, [filters,jsonData])
+  }, [filters])
 
   useEffect(() => {
     const updatedCounts: Record<string, number> = {
@@ -208,12 +234,15 @@ useEffect(() => {
 
   
   const handlePageChange = (newPage: number) => {
+    const index = (newPage-1)*itemsPerPage;
+    const pageString = handlePageString(index);
+    setPageString(pageString);
     setCurrentPage(newPage);
   }
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Update the inputSearch state only if Enter key is pressed
@@ -234,10 +263,11 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 
     if (inputSearchWords.length === 1) {
       // If it's a single word
-      finalInputSearchValue = `*${inputSearchWords[0]}*`;
+      finalInputSearchValue = `(${inputSearchWords[0]})`;
     } else {
       // If it's a sentence
-      finalInputSearchValue = inputSearchWords.map(word => `*${word}*`).join('+AND+');
+      finalInputSearchValue = inputSearchWords.join('+AND+');
+      finalInputSearchValue = `(${finalInputSearchValue})`
     }
 
     setFinalInputSearch(finalInputSearchValue);
@@ -292,9 +322,9 @@ const handleSuggestedClick = () => {
         )}
         {
            finalInputSearch && (
-            <div className='text-base font-normal mt-5'>Fetched {filteredData.length} results 
+            <div className='text-base font-normal mt-5'>showing {filteredData.length} results of {totalDataLengh}
             { filteredData.length > 0 &&
-                 (<span>in {queryTime} ms</span>)
+                 (<span>, fetched in {queryTime} ms </span>)
             }
             </div>
            )
@@ -306,26 +336,29 @@ const handleSuggestedClick = () => {
       }
       {
         (filteredData.length > 0 && jsonData.length > 0) && (
-          <div className='grid grid-cols-1 min-[800px]:grid-cols-2 gap-4 max-h-full overflow-y-auto relative'>
-          <div>
-              <div className='min-[800px]:h-1/2 my-3'>
-                <PieChart data = {data} labels = {labels}/>
-              </div>
-              <div className='min-[800px]:h-1/2 my-3'>
-                <WordCloudComponent commentsData={filteredData}/>
-              </div>
+          <div className='grid grid-cols-1 min-h-[calc(100vh - 100px)] md:grid-cols-2 gap-4 max-h-full overflow-hidden relative'>
+          <div className='overflow-y-auto'>
+            <div className='h-full my-3'>
+              <PieChart data={data} labels={labels}/>
+            </div>
+            <div className='h-full my-3'>
+              <WordCloudComponent commentsData={filteredData}/>
+            </div>
           </div>
-          <div>
-          {currentItems.map((item, index) => (
-               <CommentsCard key={item.ID} data = {item}/>
-         ))}
-          <div className='md-5'>
-            <Pagination totalItems={filteredData.length} itemsPerPage={itemsPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>
+          <div className='overflow-y-auto'>
+            {filteredData.map((item, index) => (
+              <CommentsCard key={item.ID} data={item}/>
+            ))}
           </div>
-          </div>
-      </div>
-
+        </div>
+        
+        
         )
+      }{ (filteredData.length > 0 && jsonData.length > 0) &&
+        <div className='md-5'>
+              <Pagination totalItems={totalDataLengh} itemsPerPage={itemsPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>
+            </div>
+
       }
     </div>
     </div>
