@@ -90,7 +90,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({filters, setFilters}) => {
             
           />
         </div>
-        <h2 className="text-sm font-semibold mb-2 mt-3">Date Range</h2>
+        {/* <h2 className="text-sm font-semibold mb-2 mt-3">Date Range</h2>
         <div className="mr-5 ml-5 mt-1">
         <Select
             isMulti ={false}
@@ -113,7 +113,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({filters, setFilters}) => {
               }}
             
           />
-        </div>
+        </div> */}
         <h2 className="text-sm font-semibold mt-3">Sort</h2>
         <div className="mb-4">
           <select
@@ -124,9 +124,6 @@ const FilterMenu: React.FC<FilterMenuProps> = ({filters, setFilters}) => {
             <option value="Default">Default</option>
             <option value="Most Likes">Most Scores</option>
             <option value="Least Likes">Least Scores</option>
-            {/* <option value="New Comments">New Comments</option>
-            <option value="Old Comments">Old Comments</option> */}
-            {/* Add more options as needed */}
           </select>
         </div>
       </div>

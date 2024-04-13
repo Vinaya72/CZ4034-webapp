@@ -4,7 +4,6 @@ import bg from '../public/bg.jpeg'
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import Pagination from './components/Pagination';
-import { useSearchParams } from 'next/navigation';
 import {SortOption } from './types/Types';
 import FilterMenu from './components/FilterMenu';
 import CommentsCard from './components/CommentsCard';
@@ -214,10 +213,10 @@ useEffect(() => {
   
 
   useEffect(() => {
-    const filterData = sortAndFilterData(filters);
+    // const filterData = sortAndFilterData(filters);
     const filterString = handleFilterString(filters);
     setFilterString(filterString);
-    setFilteredData(filterData);
+    // setFilteredData(filterData);
   }, [filters])
 
   useEffect(() => {
