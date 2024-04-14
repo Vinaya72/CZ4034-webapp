@@ -214,8 +214,12 @@ useEffect(() => {
 
   useEffect(() => {
     // const filterData = sortAndFilterData(filters);
+    setCurrentPage(1);
+    const pageString = handlePageString(0);
+    setPageString(pageString);
     const filterString = handleFilterString(filters);
     setFilterString(filterString);
+
     // setFilteredData(filterData);
   }, [filters])
 
@@ -329,7 +333,7 @@ const handleSuggestedClick = () => {
            )
         }
       {
-         (filteredData.length > 0 || jsonData.length > 0) && (
+         (finalInputSearch && !suggested) && (
           <FilterMenu filters={filters} setFilters={setFilters}/>
          )
       }
